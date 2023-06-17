@@ -1,10 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <style>
         button {
             margin: 5px;
+        }
+
+        label {
+            display: block;
+            font: 1rem 'Fira Sans', sans-serif;
+        }
+
+        input,
+        label {
+            margin: 0.4rem 0;
         }
     </style>
 </head>
@@ -13,45 +23,38 @@
 
     <h2>Temperature in Bournemouth</h2>
 
-   
+
     <div>
-        <p>
-            Date:<br /><input id="1" type="text" />
-            <button onclick="set()">submit</button>
-        </p>
-        <p>
-            <output id="3" />
-        </p>
+        <label for="1">Date:</label>
+        <input type="date" id="1" name="date"
+               value="2023-06-17"
+               min="2023-06-17" max="2023-06-28">
+
+        <button onclick="set()">submit</button>
+        <output id="3" />
     </div>
 
-    <script>
-// getting one block by a date
-        async function getTemp(date)
-        {
+    <script>// getting one block by a date
+        async function getTemp(date) {
             const response = await fetch(`/${date}`,//
                 {
-                  method: "GET",
-                  headers: { "Accept": "application/json" }
-                } );//
-            if (response.ok === true)
-            {
+                    method: "GET",
+                    headers: { "Accept": "application/json" }
+                });//
+            if (response.ok === true) {
                 const content = await response.json();
                 document.getElementById("3").value = `Temperature (in ºC): max: ${content.maxTemp} ` + `min: ${content.minTemp}`;
 
             }
-            else
-            {
+            else {
                 const error = await response.json();
                 document.getElementById("3").value = error.message;
             }
 
         }
-       
-        function set()
-        {
-            getTemp(document.getElementById("1").value);
-        }
 
-</script>
+        function set() {
+            getTemp(document.getElementById("1").value);
+        }</script>
 </body>
 </html>
