@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        button {
+            margin: 5px;
+            color: white;
+            background-color: transparent;
+            height: 30px;
+            width: 90px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            font: 1rem 'Fira Sans', sans-serif;
+        }
+
+        input,
+        label {
+            margin: 0.4rem 0;
+            color: white;
+        }
+        .bb {
+            color: white;
+            background-color: black;
+        }
+        .byd {
+            color: black;
+            background-color: darkgray;
+            height: 30px;
+            width: 115px;
+            font-size: 15px;
+        }
+
+    </style>
+</head>
+
+<body class="bb">
+
+    <h2>Temperature in Bournemouth</h2>
+
+
+    <div>
+        <label for="1">Date:</label>
+        <input type="date" id="1" name="date"
+               value="2023-06-17"
+               min="2023-06-17"
+               max="2023-06-28"
+               class="byd" />
+
+        <button onclick="set()">submit</button>
+        <output id="3" />
+    </div>
+
+    <script>// getting one block by a date
+        async function getTemp(date) {
+            const response = await fetch(`/${date}`,//
+                {
+                    method: "GET",
+                    headers: { "Accept": "application/json" }
+                });//
+            if (response.ok === true) {
+                const content = await response.json();
+                document.getElementById("3").value = `Temperature (in ºC): max: ${content.maxTemp} ` + `min: ${content.minTemp}`;
+
+            }
+            else {
+                const error = await response.json();
+                document.getElementById("3").value = error.message;
+            }
+
+        }
+
+        function set() {
+            getTemp(document.getElementById("1").value);
+        }</script>
+</body>
+</html>
